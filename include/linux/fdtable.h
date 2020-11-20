@@ -124,7 +124,7 @@ extern int __close_fd(struct files_struct *files,
 extern int __close_range(unsigned int fd, unsigned int max_fd, unsigned int flags);
 extern int unshare_fd(unsigned long unshare_flags, unsigned int max_fds,
 		      struct files_struct **new_fdp);
-extern int __close_fd_get_file(unsigned int fd, struct file **res);
+extern int close_fd_get_file(unsigned int fd, struct file **res);
 
 extern struct kmem_cache *files_cachep;
 
