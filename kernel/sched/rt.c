@@ -1406,7 +1406,7 @@ static void dequeue_rt_stack(struct sched_rt_entity *rt_se, unsigned int flags)
 	struct sched_rt_entity *back = NULL;
 
 	for_each_sched_rt_entity(rt_se) {
-		rt_se->back = back;
+		rt_se->back = back;730e877d04fb1747ee5634acc8b9a314c5aefe64
 		back = rt_se;
 	}
 
@@ -2826,6 +2826,10 @@ const struct sched_class rt_sched_class = {
 #ifdef CONFIG_SCHED_WALT
 	.fixup_walt_sched_stats	= fixup_walt_sched_stats_common,
 	.fixup_cumulative_runnable_avg = walt_fixup_cumulative_runnable_avg,
+#endif
+
+#ifdef CONFIG_UCLAMP_TASK
+	.uclamp_enabled		= 1,
 #endif
 
 #ifdef CONFIG_UCLAMP_TASK
