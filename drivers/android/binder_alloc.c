@@ -233,9 +233,8 @@ static int binder_update_page_range(struct binder_alloc *alloc, int allocate,
 	}
 
 	if (!vma && need_mm) {
-		binder_alloc_debug(BINDER_DEBUG_USER_ERROR,
-				   "%d: binder_alloc_buf failed to map pages in userspace, no vma\n",
-				   alloc->pid);
+		pr_debug("%d: binder_alloc_buf failed to map pages in userspace, no vma\n",
+			alloc->pid);
 		goto err_no_vma;
 	}
 
@@ -415,9 +414,8 @@ static struct binder_buffer *binder_alloc_new_buf_locked(
 	int ret;
 
 	if (!binder_alloc_get_vma(alloc)) {
-		binder_alloc_debug(BINDER_DEBUG_USER_ERROR,
-				   "%d: binder_alloc_buf, no vma\n",
-				   alloc->pid);
+		pr_debug("%d: binder_alloc_buf, no vma\n",
+			alloc->pid);
 		return ERR_PTR(-ESRCH);
 	}
 
