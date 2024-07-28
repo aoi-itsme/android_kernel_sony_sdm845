@@ -44,8 +44,17 @@ int schedtune_accept_deltas(int nrg_delta, int cap_delta,
 #else /* CONFIG_SCHED_TUNE */
 
 #define schedtune_cpu_boost(cpu)  0
+#ifdef CONFIG_UCLAMP_TASK
+#define schedtune_task_boost(tsk) uclamp_eff_value(p, UCLAMP_MIN) > 0
+#else
 #define schedtune_task_boost(tsk) 0
+#endif
+
+#ifdef CONFIG_UCLAMP_TASK_GROUP
+#define schedtune_prefer_idle(tsk) uclamp_latency_sensitive(tsk)
+#else
 #define schedtune_prefer_idle(tsk) 0
+#endif
 
 #define schedtune_exit_task(task) do { } while (0)
 
