@@ -370,6 +370,8 @@ int add_swap_extent(struct swap_info_struct *sis, unsigned long start_page,
 int generic_swapfile_activate(struct swap_info_struct *, struct file *,
 		sector_t *);
 
+int kcompressd(void *p);
+
 /* linux/mm/swap_state.c */
 extern struct address_space swapper_spaces[];
 #define swap_address_space(entry) (&swapper_spaces[swp_type(entry)])
@@ -539,6 +541,11 @@ static inline swp_entry_t get_swap_page(void)
 	swp_entry_t entry;
 	entry.val = 0;
 	return entry;
+}
+
+static inline int kcompressd(void *p)
+{
+	return 0;
 }
 
 #endif /* CONFIG_SWAP */
