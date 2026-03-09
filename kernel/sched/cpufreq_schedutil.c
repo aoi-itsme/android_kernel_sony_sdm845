@@ -1064,15 +1064,26 @@ static int sugov_init(struct cpufreq_policy *policy)
 
 	/*
 	 * NOTE:
-	 * intializing up_rate/down_rate to 0 explicitly in kernel
+	 * intializing up_rate/down_rate to 500/20000 explicitly in kernel
 	 * since WALT expects so by default.
 	 */
-	tunables->up_rate_limit_us = 0;
-	tunables->down_rate_limit_us = 0;
-	tunables->hispeed_load = DEFAULT_HISPEED_LOAD;
-	tunables->hispeed_freq = 0;
+	tunables->up_rate_limit_us = 500;
+	tunables->down_rate_limit_us = 20000;
 
-	tunables->iowait_boost_enable = false;
+	/* Set hispeed_freq and hispeed_load according to the cluster of the policy. */
+	if (policy->cpu >= 0 && policy->cpu <= 3) {
+	    tunables->hispeed_load = DEFAULT_HISPEED_LOAD;
+	    tunables->hispeed_freq = 1132800;
+	} else if (policy->cpu >= 4 && policy->cpu <= 7) {
+	    tunables->hispeed_load = DEFAULT_HISPEED_LOAD;
+	    tunables->hispeed_freq = 1612800;
+	}
+
+	/* Enable predicted load by default */
+	tunables->pl = true;
+
+	/* Enable iowait_boost by default */
+	tunables->iowait_boost_enable = true;
 
 	/* Disable exponential frequency scaling by default */
 	tunables->exp_util = false;
