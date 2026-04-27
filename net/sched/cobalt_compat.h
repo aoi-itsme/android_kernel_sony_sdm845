@@ -104,12 +104,6 @@ static inline unsigned int __tcp_hdrlen(const struct tcphdr *th)
 } */
 #endif
 
-#if KERNEL_VERSION(4, 11, 0) > LINUX_VERSION_CODE
-static inline int skb_mac_offset(const struct sk_buff *skb)
-{
-	return skb_mac_header(skb) - skb->data;
-}
-#endif
 
 #if KERNEL_VERSION(4, 7, 0) > LINUX_VERSION_CODE
 #define nla_put_u64_64bit(skb, attrtype, value, padattr) nla_put_u64(skb, attrtype, value)
@@ -121,18 +115,6 @@ static inline int skb_mac_offset(const struct sk_buff *skb)
 #else
 #define cake_maybe_lock(sch) sch_tree_lock(sch);
 #define cake_maybe_unlock(sch) sch_tree_unlock(sch);
-#endif
-
-
-#if KERNEL_VERSION(4, 12, 0) > LINUX_VERSION_CODE
-static void *kvzalloc_compat(size_t sz, gfp_t flags)
-{
-	void *ptr = kzalloc(sz, flags);
-
-	if (!ptr)
-		ptr = vzalloc(sz);
-	return ptr;
-}
 #endif
 
 /* save the best till last
