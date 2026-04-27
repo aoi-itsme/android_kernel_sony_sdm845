@@ -777,20 +777,6 @@ static inline void crypto_xor_cpy(u8 *dst, const u8 *src1, const u8 *src2,
 #define hlist_add_behind(a, b) hlist_add_after(b, a)
 #endif
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 18, 0)
-struct __kernel_timespec {
-	int64_t tv_sec, tv_nsec;
-};
-#elif LINUX_VERSION_CODE < KERNEL_VERSION(5, 1, 0)
-#include <linux/time64.h>
-#ifdef __kernel_timespec
-#undef __kernel_timespec
-struct __kernel_timespec {
-	int64_t tv_sec, tv_nsec;
-};
-#endif
-#endif
-
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 12, 0)
 #include <linux/kernel.h>
 #ifndef ALIGN_DOWN
@@ -880,15 +866,6 @@ static inline void skb_mark_not_on_list(struct sk_buff *skb)
 		memset(a->attrs, 0, (genl_family.maxattr + 1) * sizeof(struct nlattr *)); \
 	a; \
 })
-#endif
-
-#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 6, 0)
-#include <linux/skbuff.h>
-#ifndef skb_list_walk_safe
-#define skb_list_walk_safe(first, skb, next)                                   \
-	for ((skb) = (first), (next) = (skb) ? (skb)->next : NULL; (skb);      \
-	     (skb) = (next), (next) = (skb) ? (skb)->next : NULL)
-#endif
 #endif
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 4, 200) || (LINUX_VERSION_CODE < KERNEL_VERSION(4, 20, 0) && LINUX_VERSION_CODE >= KERNEL_VERSION(4, 19, 249)) || (LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0) && LINUX_VERSION_CODE >= KERNEL_VERSION(4, 14, 285)) || (LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0) && LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 320))
