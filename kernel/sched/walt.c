@@ -1291,7 +1291,7 @@ void walt_finish_migrate(struct task_struct *p,
 		 * and is in a pending state, do not push a migration
 		 * job, because all magic will have been done anyway.
 		 */
-		if (!(smp_load_acquire(&walt_cpufreq_irq_work.flags) &
+		if (!(atomic_read(&walt_cpufreq_irq_work.flags) &
 				IRQ_WORK_PENDING)) {
 			raw_spin_lock(&speedchange_cpumask_lock);
 			src_rq->notif_pending = true;
