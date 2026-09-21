@@ -611,9 +611,12 @@ static int __initdata do_skip_initramfs;
 
 static int __init skip_initramfs_param(char *str)
 {
-	if (*str)
-		return 0;
-	do_skip_initramfs = 1;
+	/*
+	 * Keep the ramdisk even if the bootloader asks to skip it. The
+	 * system partition holds a (retrofit) super, not a filesystem, so
+	 * the first-stage init in the ramdisk has to set up the logical
+	 * partitions before root can be mounted.
+	 */
 	return 1;
 }
 __setup("skip_initramfs", skip_initramfs_param);
