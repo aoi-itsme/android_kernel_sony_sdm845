@@ -1406,7 +1406,7 @@ static void dequeue_rt_stack(struct sched_rt_entity *rt_se, unsigned int flags)
 	struct sched_rt_entity *back = NULL;
 
 	for_each_sched_rt_entity(rt_se) {
-		rt_se->back = back;730e877d04fb1747ee5634acc8b9a314c5aefe64
+		rt_se->back = back;
 		back = rt_se;
 	}
 
