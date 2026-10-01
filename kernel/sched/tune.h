@@ -45,7 +45,7 @@ int schedtune_accept_deltas(int nrg_delta, int cap_delta,
 
 #define schedtune_cpu_boost(cpu)  0
 #ifdef CONFIG_UCLAMP_TASK
-#define schedtune_task_boost(tsk) uclamp_eff_value(p, UCLAMP_MIN) > 0
+#define schedtune_task_boost(tsk) (uclamp_eff_value(tsk, UCLAMP_MIN) > 0)
 #else
 #define schedtune_task_boost(tsk) 0
 #endif
